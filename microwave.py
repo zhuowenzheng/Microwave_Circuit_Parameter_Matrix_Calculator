@@ -11,6 +11,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette
+from PyQt5.QtWidgets import QMessageBox
+from pyqtgraph import ImageView
 import sys
 import qtawesome
 import algorithm
@@ -27,6 +29,48 @@ class Ui_MainWindow(object):
         self.stackedWidget.setObjectName("stackedWidget")
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
+        self.gridLayoutWidget = QtWidgets.QWidget(self.page)
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 241, 191))
+        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label_8 = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label_8.setObjectName("label_8")
+        self.gridLayout.addWidget(self.label_8, 1, 0, 1, 1)
+        self.label_9 = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label_9.setObjectName("label_9")
+        self.gridLayout.addWidget(self.label_9, 1, 1, 1, 1)
+        self.label_7 = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout.addWidget(self.label_7, 0, 1, 1, 1)
+        self.label_6 = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout.addWidget(self.label_6, 0, 0, 1, 1)
+        self.label_10 = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label_10.setObjectName("label_10")
+        self.gridLayout.addWidget(self.label_10, 2, 0, 1, 1)
+        self.label_11 = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.label_11.setObjectName("label_11")
+        self.gridLayout.addWidget(self.label_11, 2, 1, 1, 1)
+        self.textBrowser_3 = QtWidgets.QTextBrowser(self.page)
+        self.textBrowser_3.setGeometry(QtCore.QRect(435, 1, 171, 201))
+        self.textBrowser_3.setObjectName("textBrowser_3")
+        self.lineEdit_5 = QtWidgets.QLineEdit(self.page)
+        self.lineEdit_5.setGeometry(QtCore.QRect(290, 50, 113, 20))
+        self.lineEdit_5.setObjectName("lineEdit_5")
+        self.lineEdit_6 = QtWidgets.QLineEdit(self.page)
+        self.lineEdit_6.setGeometry(QtCore.QRect(290, 80, 113, 20))
+        self.lineEdit_6.setObjectName("lineEdit_6")
+        self.lineEdit_7 = QtWidgets.QLineEdit(self.page)
+        self.lineEdit_7.setGeometry(QtCore.QRect(290, 110, 113, 20))
+        self.lineEdit_7.setObjectName("lineEdit_7")
+        self.Generate = QtWidgets.QPushButton(self.page)
+        self.Generate.setGeometry(QtCore.QRect(300, 160, 91, 23))
+        self.Generate.setObjectName("Generate")
+        self.label_12 = QtWidgets.QLabel(self.page)
+        self.label_12.setGeometry(QtCore.QRect(290, 22, 111, 20))
+        self.label_12.setObjectName("label_12")
         self.stackedWidget.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
@@ -122,6 +166,14 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.label_8.setText(_translate("MainWindow", "TextLabel"))
+        self.label_9.setText(_translate("MainWindow", "TextLabel"))
+        self.label_7.setText(_translate("MainWindow", "TextLabel"))
+        self.label_6.setText(_translate("MainWindow", "TextLabel"))
+        self.label_10.setText(_translate("MainWindow", "TextLabel"))
+        self.label_11.setText(_translate("MainWindow", "TextLabel"))
+        self.Generate.setText(_translate("MainWindow", "Generate"))
+        self.label_12.setText(_translate("MainWindow", "TextLabel"))
         self.label_4.setText(_translate("MainWindow", "———>"))
         self.pushButton.setText(_translate("MainWindow", "Convert"))
         self.label_3.setText(_translate("MainWindow", "Matrix Elements"))
@@ -138,10 +190,14 @@ class Ui_MainWindow(object):
         self.label_5.setText(_translate("MainWindow", "Log"))
         self.menu.setTitle(_translate("MainWindow", "功能选择"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))
-        self.actionMatrix_Coefficient_Transfer.setText(_translate("MainWindow", "Matrix Coefficient Transform"))
+        self.actionMatrix_Coefficient_Transfer.setText(_translate("MainWindow", "Matrix Coefficient Converion"))
         self.actionCircuit_Parameters_to_matrices.setText(_translate("MainWindow", "Circuit Parameters to matrices"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionDevelop_team.setText(_translate("MainWindow", "Develop team"))
+
+        '''
+        —————————美化部分———————————
+        '''
         MainWindow.setWindowOpacity(0.9)  # 设置窗口透明度
         # MainWindow.setAttribute(QtCore.Qt.WA_TranslucentBackground) # 设置窗口背景透明
         # MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
@@ -168,7 +224,32 @@ class Ui_MainWindow(object):
 
         self.pushButton.clicked.connect(self.clickButton)
 
+        #菜单栏功能
+        self.actionMatrix_Coefficient_Transfer.triggered.connect(self.switch_to_matrix_coef_conversion) #切换至矩阵运算
+        self.actionCircuit_Parameters_to_matrices.triggered.connect(self.switch_to_circuit) #根据电路参数生成
+        self.actionExit.triggered.connect(self.quit) #退出
+        self.actionDevelop_team.triggered.connect(self.messageDialog)
 
+    def switch_to_matrix_coef_conversion(self):
+        self.stackedWidget.setCurrentIndex(1)
+
+    def switch_to_circuit(self):
+        self.stackedWidget.setCurrentIndex(0)
+
+    def quit(self):
+        app = QtWidgets.QApplication.instance()
+        app.quit()
+
+    def messageDialog(self):
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Information, 'About',
+                                        'Developer: Alex Zheng 1951710@tongji.edu.cn\n'
+                                        'Team:   1951710 郑焯文\n\t'
+                                        '1951864 关天鹏\n\t'
+                                        '1951895 徐一凡\n\t'
+                                        '1952290 李卓融\n'
+                                        'Environment: PyQt5 Python3.9')  # Information可替换为Warning、Critical其他提示框类型
+        msg_box.setWindowIcon(QtGui.QIcon('logo.ico'))  # 加载图标
+        msg_box.exec_()
 
     def clickButton(self):
         if len(self.lineEdit.text())==0 or len(self.lineEdit_2.text())==0 or len(self.lineEdit_3.text())==0 or len(self.lineEdit_4.text())==0:
@@ -179,8 +260,13 @@ class Ui_MainWindow(object):
         e2 = float(self.lineEdit_2.text())
         e3 = float(self.lineEdit_3.text())
         e4 = float(self.lineEdit_4.text())
+
         print(self.comboBox.currentIndex())
         print(self.comboBox_2.currentIndex())
+
+        print("Widget index:", self.stackedWidget.currentIndex())
+        self.switch_to_matrix_coef_conversion()
+
         if (self.comboBox.currentIndex() == self.comboBox_2.currentIndex()):
             self.textBrowser.setText("<font color='red'>" + "目标矩阵与原矩阵类型不得相同!")
             return
@@ -240,6 +326,7 @@ class Ui_MainWindow(object):
             self.textBrowser.moveCursor(self.cursor.End)
             QtWidgets.QApplication.processEvents()
         return
+
 
 
 if __name__ == '__main__':
