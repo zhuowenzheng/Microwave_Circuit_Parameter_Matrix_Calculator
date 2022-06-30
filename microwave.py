@@ -174,39 +174,72 @@ class Ui_MainWindow(object):
         if len(self.lineEdit.text())==0 or len(self.lineEdit_2.text())==0 or len(self.lineEdit_3.text())==0 or len(self.lineEdit_4.text())==0:
             self.textBrowser.setText("<font color='red'>" + "矩阵元素不能为空!")
             return
-        if self.comboBox.currentText() == "ABCD":
-            # ABCD -> ZYS
-            a = float(self.lineEdit.text())
-            b = float(self.lineEdit_2.text())
-            c = float(self.lineEdit_3.text())
-            d = float(self.lineEdit_4.text())
-            print(self.comboBox.currentIndex())
-            print(self.comboBox_2.currentIndex())
-            if (self.comboBox.currentIndex() == self.comboBox_2.currentIndex()):
-                self.textBrowser.setText("<font color='red'>" + "目标矩阵与原矩阵类型不得相同!")
-                return
-            if (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 1:  # abcd->z
-                self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的Z矩阵转换如下：")
-                self.textBrowser_2.append("[INFO] Z matrix generated!")
-                matrix = algorithm.z_transition_function(a, b, c, d)
-            elif (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 2:  # abcd->y
-                self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的Y矩阵转换如下：")
-                self.textBrowser_2.append("[INFO] Y matrix generated!")
-                matrix = algorithm.y_transition_function(a, b, c, d)
-            elif (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 3:  # abcd->s
-                self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的S矩阵转换如下：")
-                self.textBrowser_2.append("[INFO] S matrix generated!")
-                matrix = algorithm.s_transition_function(a, b, c, d)
-
-            for i in matrix:
-                print(str(i)[1:-1])
-                self.textBrowser.append(str(i)[1:-1])
-                self.cursor = self.textBrowser.textCursor()
-                self.textBrowser.moveCursor(self.cursor.End)
-                QtWidgets.QApplication.processEvents()
+        # ABCD -> ZYS
+        e1 = float(self.lineEdit.text())
+        e2 = float(self.lineEdit_2.text())
+        e3 = float(self.lineEdit_3.text())
+        e4 = float(self.lineEdit_4.text())
+        print(self.comboBox.currentIndex())
+        print(self.comboBox_2.currentIndex())
+        if (self.comboBox.currentIndex() == self.comboBox_2.currentIndex()):
+            self.textBrowser.setText("<font color='red'>" + "目标矩阵与原矩阵类型不得相同!")
             return
+        if (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 1:  # abcd->z
+            self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的Z矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] ABCD->Z matrix generated!")
+            matrix = algorithm.abcd_to_z(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 2:  # abcd->y
+            self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的Y矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] ABCD->Y matrix generated!")
+            matrix = algorithm.abcd_to_y(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 3:  # abcd->s
+            self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的S矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] ABCD->S matrix generated!")
+            matrix = algorithm.abcd_to_s(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 1) and self.comboBox_2.currentIndex() == 0:  # z->abcd
+            self.textBrowser.setText("<font color='blue'>" + "基于Z矩阵的ABCD矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] Z->ABCD matrix generated!")
+            matrix = algorithm.z_to_abcd(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 1) and self.comboBox_2.currentIndex() == 2:  # z->y
+            self.textBrowser.setText("<font color='blue'>" + "基于Z矩阵的Y矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] Z->Y matrix generated!")
+            matrix = algorithm.z_to_y(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 1) and self.comboBox_2.currentIndex() == 3:  # z->s
+            self.textBrowser.setText("<font color='blue'>" + "基于Z矩阵的S矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] Z->S matrix generated!")
+            matrix = algorithm.z_to_s(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 2) and self.comboBox_2.currentIndex() == 0:  # y->abcd
+            self.textBrowser.setText("<font color='blue'>" + "基于Y矩阵的ABCD矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] Y->ABCD matrix generated!")
+            matrix = algorithm.y_to_abcd(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 2) and self.comboBox_2.currentIndex() == 1:  # y->z
+            self.textBrowser.setText("<font color='blue'>" + "基于Y矩阵的Z矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] Y->Z matrix generated!")
+            matrix = algorithm.y_to_z(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 2) and self.comboBox_2.currentIndex() == 3:  # y->s
+            self.textBrowser.setText("<font color='blue'>" + "基于Y矩阵的S矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] Y->S matrix generated!")
+            matrix = algorithm.y_to_s(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 3) and self.comboBox_2.currentIndex() == 0:  # s->abcd
+            self.textBrowser.setText("<font color='blue'>" + "基于S矩阵的ABCD矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] S->ABCD matrix generated!")
+            matrix = algorithm.s_to_abcd(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 3) and self.comboBox_2.currentIndex() == 1:  # s->z
+            self.textBrowser.setText("<font color='blue'>" + "基于S矩阵的Z矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] S->Z matrix generated!")
+            matrix = algorithm.s_to_z(e1, e2, e3, e4)
+        elif (self.comboBox.currentIndex() == 3) and self.comboBox_2.currentIndex() == 2:  # s->y
+            self.textBrowser.setText("<font color='blue'>" + "基于S矩阵的Y矩阵转换如下：")
+            self.textBrowser_2.append("[INFO] S->Y matrix generated!")
+            matrix = algorithm.s_to_y(e1, e2, e3, e4)
 
-
+        for i in matrix:
+            print(str(i)[1:-1])
+            self.textBrowser.append(str(i)[1:-1])
+            self.cursor = self.textBrowser.textCursor()
+            self.textBrowser.moveCursor(self.cursor.End)
+            QtWidgets.QApplication.processEvents()
+        return
 
 
 if __name__ == '__main__':
