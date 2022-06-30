@@ -9,12 +9,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPalette, QPixmap
-
+from qtawesome import icon
 
 import sys
-import qtawesome
 import paramAlgorithm
 import numpy as np
 
@@ -191,7 +188,7 @@ class Ui_MainWindow(object):
         self.circuittitle.setText(_translate("MainWindow", "二端口网络类型"))
         self.menu.setTitle(_translate("MainWindow", "功能选择"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))
-        self.actionMatrix_Coefficient_Transfer.setText(_translate("MainWindow", "Matrix Coefficient Converion"))
+        self.actionMatrix_Coefficient_Transfer.setText(_translate("MainWindow", "Matrix Coefficient Conversion"))
         self.actionCircuit_Parameters_to_matrices.setText(_translate("MainWindow", "Circuit Parameters to matrices"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionDevelop_team.setText(_translate("MainWindow", "Develop team"))
@@ -202,13 +199,13 @@ class Ui_MainWindow(object):
         MainWindow.setWindowOpacity(0.9)  # 设置窗口透明度
         # MainWindow.setAttribute(QtCore.Qt.WA_TranslucentBackground) # 设置窗口背景透明
         # MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
-        pe = QPalette()
+        pe = QtGui.QPalette()
         MainWindow.setAutoFillBackground(True)
-        pe.setColor(QPalette.Window, Qt.lightGray)  # 设置背景色
+        pe.setColor(QtGui.QPalette.Window, QtCore.Qt.lightGray)  # 设置背景色
         # pe.setColor(QPalette.Background,Qt.blue)
         MainWindow.setPalette(pe)
         MainWindow.setWindowTitle("微波网络参数矩阵转换可视化 v1.0.0 by Alex")
-        spin_icon = qtawesome.icon('mdi.cat', color='black')
+        spin_icon = icon('mdi.cat', color='black')
         self.pushButton.setIcon(spin_icon)  # 设置图标
         self.Generate.setIcon(spin_icon)  # 设置图标
         MainWindow.setWindowIcon(spin_icon)
@@ -240,19 +237,19 @@ class Ui_MainWindow(object):
         self.actionDevelop_team.triggered.connect(self.messageDialog)
 
         # 电路图
-        pixmap1 = QPixmap("./1.png")  # 按指定路径找到图片
+        pixmap1 = QtGui.QPixmap("./1.png")  # 按指定路径找到图片
         self.label_6.setPixmap(pixmap1)  # 在label上显示图片, 默认为1
         self.comboBox_3.currentIndexChanged.connect(self.input_and_image_change)  # 更改电路图
         self.lineEdit_6.setVisible(False)
         self.lineEdit_7.setVisible(False)
 
     def input_and_image_change(self):
-        pixmap1 = QPixmap("./1.png")  # 按指定路径找到图片
-        pixmap2 = QPixmap("./2.png")
-        pixmap3 = QPixmap("./3.png")
-        pixmap4 = QPixmap("./4.png")
-        pixmap5 = QPixmap("./5.png")
-        pixmap6 = QPixmap("./6.png")
+        pixmap1 = QtGui.QPixmap("./1.png")  # 按指定路径找到图片
+        pixmap2 = QtGui.QPixmap("./2.png")
+        pixmap3 = QtGui.QPixmap("./3.png")
+        pixmap4 = QtGui.QPixmap("./4.png")
+        pixmap5 = QtGui.QPixmap("./5.png")
+        pixmap6 = QtGui.QPixmap("./6.png")
         if self.comboBox_3.currentIndex() == 0:
             self.label_6.setPixmap(pixmap1)  # 在label上显示图片
             self.lineEdit_6.setVisible(False)
