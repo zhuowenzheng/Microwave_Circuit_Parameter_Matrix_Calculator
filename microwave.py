@@ -11,11 +11,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QPixmap
-from PyQt5.QtWidgets import QMessageBox
-from pyqtgraph import ImageView
+
+
 import sys
 import qtawesome
-import algorithm
+import paramAlgorithm
+import numpy as np
 
 
 class Ui_MainWindow(object):
@@ -187,7 +188,7 @@ class Ui_MainWindow(object):
         self.comboBox_2.setItemText(3, _translate("MainWindow", "S"))
         self.label_2.setText(_translate("MainWindow", "Target Matrix"))
         self.label_5.setText(_translate("MainWindow", "Log"))
-        self.circuittitle.setText(_translate("MainWindow","二端口网络类型"))
+        self.circuittitle.setText(_translate("MainWindow", "二端口网络类型"))
         self.menu.setTitle(_translate("MainWindow", "功能选择"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))
         self.actionMatrix_Coefficient_Transfer.setText(_translate("MainWindow", "Matrix Coefficient Converion"))
@@ -230,24 +231,20 @@ class Ui_MainWindow(object):
         MainWindow.setFixedSize(MainWindow.width(), MainWindow.height())  # 禁止调整窗口大小
 
         self.pushButton.clicked.connect(self.conversion_clickButton)
+        self.Generate.clicked.connect(self.generate_clickButton)
 
-        #菜单栏功能
-        self.actionMatrix_Coefficient_Transfer.triggered.connect(self.switch_to_matrix_coef_conversion) #切换至矩阵运算
-        self.actionCircuit_Parameters_to_matrices.triggered.connect(self.switch_to_circuit) #根据电路参数生成
-        self.actionExit.triggered.connect(self.quit) #退出
+        # 菜单栏功能
+        self.actionMatrix_Coefficient_Transfer.triggered.connect(self.switch_to_matrix_coef_conversion)  # 切换至矩阵运算
+        self.actionCircuit_Parameters_to_matrices.triggered.connect(self.switch_to_circuit)  # 根据电路参数生成
+        self.actionExit.triggered.connect(self.quit)  # 退出
         self.actionDevelop_team.triggered.connect(self.messageDialog)
 
-        '''
-        电路图
-        '''
-
+        # 电路图
         pixmap1 = QPixmap("./1.png")  # 按指定路径找到图片
         self.label_6.setPixmap(pixmap1)  # 在label上显示图片, 默认为1
-        self.comboBox_3.currentIndexChanged.connect(self.input_and_image_change) #更改电路图
+        self.comboBox_3.currentIndexChanged.connect(self.input_and_image_change)  # 更改电路图
         self.lineEdit_6.setVisible(False)
         self.lineEdit_7.setVisible(False)
-
-
 
     def input_and_image_change(self):
         pixmap1 = QPixmap("./1.png")  # 按指定路径找到图片
@@ -287,16 +284,20 @@ class Ui_MainWindow(object):
             self.lineEdit_7.setVisible(True)
             self.label_12.setText("请依次输入参数:\nZ1、Z2、Z3")
 
+    # 菜单切换到矩阵转换
     def switch_to_matrix_coef_conversion(self):
         self.stackedWidget.setCurrentIndex(1)
 
+    # 菜单切换到二端口网络
     def switch_to_circuit(self):
         self.stackedWidget.setCurrentIndex(0)
 
+    # 菜单退出
     def quit(self):
         app = QtWidgets.QApplication.instance()
         app.quit()
 
+    # About
     def messageDialog(self):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Information, 'About',
                                         'Developer: Alex Zheng 1951710@tongji.edu.cn\n'
@@ -308,16 +309,28 @@ class Ui_MainWindow(object):
         msg_box.setWindowIcon(QtGui.QIcon('logo.ico'))  # 加载图标
         msg_box.exec_()
 
-    def print_matrix(self, matrix):
+    # 参数转换矩阵打印
+    def conversion_print_matrix(self, matrix):
         for i in matrix:
             print(str(i)[1:-1])
             self.textBrowser.append(str(i)[1:-1])
             self.cursor = self.textBrowser.textCursor()
             self.textBrowser.moveCursor(self.cursor.End)
-            QtWidgets.QApplication.processEvents() #光标换行跟随
+            QtWidgets.QApplication.processEvents()  # 光标换行跟随
 
+    # 二端口网络参数矩阵打印
+    def circuit_print_matrix(self, matrix):
+        for i in matrix:
+            print(str(i)[1:-1])
+            self.textBrowser_3.append(str(i)[1:-1])
+            self.cursor = self.textBrowser_3.textCursor()
+            self.textBrowser_3.moveCursor(self.cursor.End)
+            QtWidgets.QApplication.processEvents()  # 光标换行跟随
+
+    # Conversion按钮执行事件
     def conversion_clickButton(self):
-        if len(self.lineEdit.text())==0 or len(self.lineEdit_2.text())==0 or len(self.lineEdit_3.text())==0 or len(self.lineEdit_4.text())==0:
+        if len(self.lineEdit.text()) == 0 or len(self.lineEdit_2.text()) == 0 or len(
+                self.lineEdit_3.text()) == 0 or len(self.lineEdit_4.text()) == 0:
             self.textBrowser.setText("<font color='red'>" + "矩阵元素不能为空!")
             return
 
@@ -326,10 +339,11 @@ class Ui_MainWindow(object):
         e3 = float(self.lineEdit_3.text())
         e4 = float(self.lineEdit_4.text())
 
-        print(self.comboBox.currentIndex())
-        print(self.comboBox_2.currentIndex())
+        # print(self.comboBox.currentIndex())
+        # print(self.comboBox_2.currentIndex())
 
-        print("Widget index:", self.stackedWidget.currentIndex())
+        # print("Widget index:", self.stackedWidget.currentIndex())
+
         self.switch_to_matrix_coef_conversion()
 
         if (self.comboBox.currentIndex() == self.comboBox_2.currentIndex()):
@@ -338,64 +352,129 @@ class Ui_MainWindow(object):
         if (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 1:  # abcd->z
             self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的Z矩阵转换如下：")
             self.textBrowser_2.append("[INFO] ABCD->Z matrix generated!")
-            matrix = algorithm.abcd_to_z(e1, e2, e3, e4)
+            matrix = paramAlgorithm.abcd_to_z(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 2:  # abcd->y
             self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的Y矩阵转换如下：")
             self.textBrowser_2.append("[INFO] ABCD->Y matrix generated!")
-            matrix = algorithm.abcd_to_y(e1, e2, e3, e4)
+            matrix = paramAlgorithm.abcd_to_y(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 0) and self.comboBox_2.currentIndex() == 3:  # abcd->s
             self.textBrowser.setText("<font color='blue'>" + "基于ABCD矩阵的S矩阵转换如下：")
             self.textBrowser_2.append("[INFO] ABCD->S matrix generated!")
-            matrix = algorithm.abcd_to_s(e1, e2, e3, e4)
+            matrix = paramAlgorithm.abcd_to_s(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 1) and self.comboBox_2.currentIndex() == 0:  # z->abcd
             self.textBrowser.setText("<font color='blue'>" + "基于Z矩阵的ABCD矩阵转换如下：")
             self.textBrowser_2.append("[INFO] Z->ABCD matrix generated!")
-            matrix = algorithm.z_to_abcd(e1, e2, e3, e4)
+            matrix = paramAlgorithm.z_to_abcd(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 1) and self.comboBox_2.currentIndex() == 2:  # z->y
             self.textBrowser.setText("<font color='blue'>" + "基于Z矩阵的Y矩阵转换如下：")
             self.textBrowser_2.append("[INFO] Z->Y matrix generated!")
-            matrix = algorithm.z_to_y(e1, e2, e3, e4)
+            matrix = paramAlgorithm.z_to_y(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 1) and self.comboBox_2.currentIndex() == 3:  # z->s
             self.textBrowser.setText("<font color='blue'>" + "基于Z矩阵的S矩阵转换如下：")
             self.textBrowser_2.append("[INFO] Z->S matrix generated!")
-            matrix = algorithm.z_to_s(e1, e2, e3, e4)
+            matrix = paramAlgorithm.z_to_s(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 2) and self.comboBox_2.currentIndex() == 0:  # y->abcd
             self.textBrowser.setText("<font color='blue'>" + "基于Y矩阵的ABCD矩阵转换如下：")
             self.textBrowser_2.append("[INFO] Y->ABCD matrix generated!")
-            matrix = algorithm.y_to_abcd(e1, e2, e3, e4)
+            matrix = paramAlgorithm.y_to_abcd(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 2) and self.comboBox_2.currentIndex() == 1:  # y->z
             self.textBrowser.setText("<font color='blue'>" + "基于Y矩阵的Z矩阵转换如下：")
             self.textBrowser_2.append("[INFO] Y->Z matrix generated!")
-            matrix = algorithm.y_to_z(e1, e2, e3, e4)
+            matrix = paramAlgorithm.y_to_z(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 2) and self.comboBox_2.currentIndex() == 3:  # y->s
             self.textBrowser.setText("<font color='blue'>" + "基于Y矩阵的S矩阵转换如下：")
             self.textBrowser_2.append("[INFO] Y->S matrix generated!")
-            matrix = algorithm.y_to_s(e1, e2, e3, e4)
+            matrix = paramAlgorithm.y_to_s(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 3) and self.comboBox_2.currentIndex() == 0:  # s->abcd
             self.textBrowser.setText("<font color='blue'>" + "基于S矩阵的ABCD矩阵转换如下：")
             self.textBrowser_2.append("[INFO] S->ABCD matrix generated!")
-            matrix = algorithm.s_to_abcd(e1, e2, e3, e4)
+            matrix = paramAlgorithm.s_to_abcd(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 3) and self.comboBox_2.currentIndex() == 1:  # s->z
             self.textBrowser.setText("<font color='blue'>" + "基于S矩阵的Z矩阵转换如下：")
             self.textBrowser_2.append("[INFO] S->Z matrix generated!")
-            matrix = algorithm.s_to_z(e1, e2, e3, e4)
+            matrix = paramAlgorithm.s_to_z(e1, e2, e3, e4)
         elif (self.comboBox.currentIndex() == 3) and self.comboBox_2.currentIndex() == 2:  # s->y
             self.textBrowser.setText("<font color='blue'>" + "基于S矩阵的Y矩阵转换如下：")
             self.textBrowser_2.append("[INFO] S->Y matrix generated!")
-            matrix = algorithm.s_to_y(e1, e2, e3, e4)
+            matrix = paramAlgorithm.s_to_y(e1, e2, e3, e4)
 
-        self.print_matrix(matrix)
+        self.conversion_print_matrix(matrix)
 
         return
 
     def generate_clickButton(self):
-        if len(self.lineEdit_5.text())==0 or len(self.lineEdit_6.text())==0 or len(self.lineEdit_7.text())==0 :
-            self.textBrowser.setText("<font color='red'>" + "参数不能为空!")
-            return
-        if self.comboBox_3.currentIndex()==0:
-            Z = float(self.lineEdit_5.text())
-            a, b, c, d = algorithm.circuit_1_abcd(Z)
 
+        if self.comboBox_3.currentIndex() == 0 or self.comboBox_3.currentIndex() == 1 or self.comboBox_3.currentIndex() == 3:
+            if len(self.lineEdit_5.text()) == 0:
+                self.textBrowser_3.setText("<font color='red'>" + "参数不能为空!")
+                return
+
+        if self.comboBox_3.currentIndex() == 2:
+            if len(self.lineEdit_5.text()) == 0 or len(self.lineEdit_6.text()) == 0:
+                self.textBrowser_3.setText("<font color='red'>" + "参数不能为空!")
+                return
+
+        if self.comboBox_3.currentIndex() == 4 or self.comboBox_3.currentIndex() == 5:
+            if len(self.lineEdit_5.text()) == 0 or len(self.lineEdit_6.text()) == 0 or len(self.lineEdit_7.text()) == 0:
+                self.textBrowser_3.setText("<font color='red'>" + "参数不能为空!")
+                return
+
+        if self.comboBox_3.currentIndex() == 0:
+            z = float(self.lineEdit_5.text())
+            a, b, c, d = paramAlgorithm.circuit_1_abcd(z)
+        elif self.comboBox_3.currentIndex() == 1:
+            y = float(self.lineEdit_5.text())
+            a, b, c, d = paramAlgorithm.circuit_2_abcd(y)
+        elif self.comboBox_3.currentIndex() == 2:
+            beta = float(self.lineEdit_5.text())
+            length = float(self.lineEdit_6.text())
+            a, b, c, d = paramAlgorithm.circuit_3_abcd(beta, length)
+        elif self.comboBox_3.currentIndex() == 3:
+            n = float(self.lineEdit_5.text())
+            a, b, c, d = paramAlgorithm.circuit_4_abcd(n)
+        elif self.comboBox_3.currentIndex() == 4:
+            y1 = float(self.lineEdit_5.text())
+            y2 = float(self.lineEdit_6.text())
+            y3 = float(self.lineEdit_7.text())
+            a, b, c, d = paramAlgorithm.circuit_5_abcd(y1, y2, y3)
+        elif self.comboBox_3.currentIndex() == 5:
+            z1 = float(self.lineEdit_5.text())
+            z2 = float(self.lineEdit_6.text())
+            z3 = float(self.lineEdit_7.text())
+            a, b, c, d = paramAlgorithm.circuit_6_abcd(z1, z2, z3)
+
+        self.textBrowser_3.setText("")
+        matrix_abcd = np.mat([[a, b], [c, d]])
+        self.textBrowser_3.setText("<font color='blue'>" + "基于该二端口网络的参数矩阵如下：")
+        self.textBrowser_3.append("ABCD参数矩阵:")
+        self.circuit_print_matrix(matrix_abcd)
+        try:
+            matrix_z = paramAlgorithm.abcd_to_z(a, b, c, d)
+            self.textBrowser_3.append("Z参数矩阵:")
+            self.circuit_print_matrix(matrix_z)
+        except ZeroDivisionError as e:
+            print('except:', e)
+            self.textBrowser_3.append("由于除以0,无Z矩阵")
+        try:
+            matrix_y = paramAlgorithm.abcd_to_y(a, b, c, d)
+            self.textBrowser_3.append("Y参数矩阵:")
+            self.circuit_print_matrix(matrix_y)
+        except ZeroDivisionError as e:
+            print('except:', e)
+            self.textBrowser_3.append("由于除以0,无Y矩阵")
+        try:
+            matrix_s = paramAlgorithm.abcd_to_s(a, b, c, d)
+            self.textBrowser_3.append("S参数矩阵:")
+            self.circuit_print_matrix(matrix_s)
+        except ZeroDivisionError as e:
+            print('except:', e)
+            self.textBrowser_3.append("由于除以0,无S矩阵")
+
+        print(self.comboBox_3.currentText())
+        self.textBrowser_2.append(
+            "[INFO] Matrices of Two-port circuit:{} generated!".format(self.comboBox_3.currentText()))
+
+        return
 
 
 if __name__ == '__main__':
