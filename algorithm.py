@@ -121,6 +121,7 @@ def s_to_z(s1, s2, s3, s4):
     print(matrix_z)
     return matrix_z
 
+
 def s_to_y(s1, s2, s3, s4):
     y11_ = (1 - s1) * (1 + s4) + s2 * s3
     y12_ = -2 * s2
@@ -130,3 +131,51 @@ def s_to_y(s1, s2, s3, s4):
     matrix_y = coef * np.mat([[y11_, y12_], [y21_, y22_]])
     print(matrix_y)
     return matrix_y
+
+
+def circuit_1_abcd(Z):
+    a = 1
+    b = Z
+    c = 0
+    d = 1
+    return a, b, c, d
+
+
+def circuit_2_abcd(Y):
+    a = 1
+    b = 0
+    c = Y
+    d = 1
+    return a, b, c, d
+
+
+def circuit_3_abcd(beta,l):
+    a = np.cos(beta*l)
+    b = np.sin(beta*l)*1j
+    c = np.sin(beta*l)*1j
+    d = np.cos(beta*l)
+    return a, b, c, d
+
+
+def circuit_4_abcd(N):
+    a = N
+    b = 0
+    c = 0
+    d = 1 / N
+    return a, b, c, d
+
+
+def circuit_5_abcd(y1,y2,y3):
+    a = 1 + y2/y3
+    b = 1 / y3
+    c = y1 + y2 + y1*y2/y3
+    d = 1 + y1/y3
+    return a, b, c, d
+
+def circuit_6_abcd(z1,z2,z3):
+    a = 1 + z1/z3
+    b = z1 + z2 + z1*z2/z3
+    c = 1/z3
+    d = 1 + z2/z3
+    return a,b,c,d
+

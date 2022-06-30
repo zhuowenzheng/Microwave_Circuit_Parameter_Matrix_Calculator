@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPalette
+from PyQt5.QtGui import QPalette, QPixmap
 from PyQt5.QtWidgets import QMessageBox
 from pyqtgraph import ImageView
 import sys
@@ -29,30 +29,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.setObjectName("stackedWidget")
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
-        self.gridLayoutWidget = QtWidgets.QWidget(self.page)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 241, 191))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setObjectName("gridLayout")
-        self.label_8 = QtWidgets.QLabel(self.gridLayoutWidget)
-        self.label_8.setObjectName("label_8")
-        self.gridLayout.addWidget(self.label_8, 1, 0, 1, 1)
-        self.label_9 = QtWidgets.QLabel(self.gridLayoutWidget)
-        self.label_9.setObjectName("label_9")
-        self.gridLayout.addWidget(self.label_9, 1, 1, 1, 1)
-        self.label_7 = QtWidgets.QLabel(self.gridLayoutWidget)
-        self.label_7.setObjectName("label_7")
-        self.gridLayout.addWidget(self.label_7, 0, 1, 1, 1)
-        self.label_6 = QtWidgets.QLabel(self.gridLayoutWidget)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 0, 0, 1, 1)
-        self.label_10 = QtWidgets.QLabel(self.gridLayoutWidget)
-        self.label_10.setObjectName("label_10")
-        self.gridLayout.addWidget(self.label_10, 2, 0, 1, 1)
-        self.label_11 = QtWidgets.QLabel(self.gridLayoutWidget)
-        self.label_11.setObjectName("label_11")
-        self.gridLayout.addWidget(self.label_11, 2, 1, 1, 1)
         self.textBrowser_3 = QtWidgets.QTextBrowser(self.page)
         self.textBrowser_3.setGeometry(QtCore.QRect(435, 1, 171, 201))
         self.textBrowser_3.setObjectName("textBrowser_3")
@@ -69,8 +45,29 @@ class Ui_MainWindow(object):
         self.Generate.setGeometry(QtCore.QRect(300, 160, 91, 23))
         self.Generate.setObjectName("Generate")
         self.label_12 = QtWidgets.QLabel(self.page)
-        self.label_12.setGeometry(QtCore.QRect(290, 22, 111, 20))
+        self.label_12.setGeometry(QtCore.QRect(290, 15, 111, 40))
         self.label_12.setObjectName("label_12")
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.page)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(0, 20, 271, 191))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.comboBox_3 = QtWidgets.QComboBox(self.verticalLayoutWidget_2)
+        self.comboBox_3.setObjectName("comboBox_3")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.verticalLayout_2.addWidget(self.comboBox_3)
+        self.label_6 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label_6.setObjectName("label_6")
+        self.verticalLayout_2.addWidget(self.label_6)
+        self.circuittitle = QtWidgets.QLabel(self.page)
+        self.circuittitle.setGeometry(QtCore.QRect(0, 0, 54, 12))
+        self.circuittitle.setObjectName("circuittitle")
         self.stackedWidget.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
@@ -166,14 +163,16 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_8.setText(_translate("MainWindow", "TextLabel"))
-        self.label_9.setText(_translate("MainWindow", "TextLabel"))
-        self.label_7.setText(_translate("MainWindow", "TextLabel"))
-        self.label_6.setText(_translate("MainWindow", "TextLabel"))
-        self.label_10.setText(_translate("MainWindow", "TextLabel"))
-        self.label_11.setText(_translate("MainWindow", "TextLabel"))
         self.Generate.setText(_translate("MainWindow", "Generate"))
-        self.label_12.setText(_translate("MainWindow", "TextLabel"))
+        self.label_12.setText(_translate("MainWindow", "请输入参数: Z"))
+        self.comboBox_3.setItemText(0, _translate("MainWindow", "单一Z阻抗"))
+        self.comboBox_3.setItemText(1, _translate("MainWindow", "单一Y导纳"))
+        self.comboBox_3.setItemText(2, _translate("MainWindow", "Z0=1, β"))
+        self.comboBox_3.setItemText(3, _translate("MainWindow", "N:1变压器"))
+        self.comboBox_3.setItemText(4, _translate("MainWindow", "三导纳Y1,Y2,Y3"))
+        self.comboBox_3.setItemText(5, _translate("MainWindow", "三阻抗Z1,Z2,Z3"))
+        self.label_6.setText(_translate("MainWindow", ""))
+        self.circuittitle.setText(_translate("MainWindow", "TextLabel"))
         self.label_4.setText(_translate("MainWindow", "———>"))
         self.pushButton.setText(_translate("MainWindow", "Convert"))
         self.label_3.setText(_translate("MainWindow", "Matrix Elements"))
@@ -188,6 +187,7 @@ class Ui_MainWindow(object):
         self.comboBox_2.setItemText(3, _translate("MainWindow", "S"))
         self.label_2.setText(_translate("MainWindow", "Target Matrix"))
         self.label_5.setText(_translate("MainWindow", "Log"))
+        self.circuittitle.setText(_translate("MainWindow","二端口网络类型"))
         self.menu.setTitle(_translate("MainWindow", "功能选择"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))
         self.actionMatrix_Coefficient_Transfer.setText(_translate("MainWindow", "Matrix Coefficient Converion"))
@@ -209,26 +209,83 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle("微波网络参数矩阵转换可视化 v1.0.0 by Alex")
         spin_icon = qtawesome.icon('mdi.cat', color='black')
         self.pushButton.setIcon(spin_icon)  # 设置图标
+        self.Generate.setIcon(spin_icon)  # 设置图标
         MainWindow.setWindowIcon(spin_icon)
         self.label.setStyleSheet('''QLabel{color:white;font-family:Roman times;}''')
         self.label_2.setStyleSheet('''QLabel{color:white;font-family:Roman times;}''')
         self.label_3.setStyleSheet('''QLabel{color:white;font-family:Roman times;}''')
         self.label_4.setStyleSheet('''QLabel{color:white;font-family:Roman times;}''')
         self.label_5.setStyleSheet('''QLabel{color:white;font-family:Roman times;}''')
+        self.circuittitle.setStyleSheet('''QLabel{color:white;font-family:Roman times;}''')
         self.pushButton.setStyleSheet('''QPushButton{border:none;}
         QPushButton:hover{color:white;
                     border:2px solid #F3F3F5;
                     border-radius:35px;
                     background:Gray;}''')
+        self.Generate.setStyleSheet('''QPushButton{border:none;}
+                QPushButton:hover{color:white;
+                            border:2px solid #F3F3F5;
+                            border-radius:35px;
+                            background:Gray;}''')
         MainWindow.setFixedSize(MainWindow.width(), MainWindow.height())  # 禁止调整窗口大小
 
-        self.pushButton.clicked.connect(self.clickButton)
+        self.pushButton.clicked.connect(self.conversion_clickButton)
 
         #菜单栏功能
         self.actionMatrix_Coefficient_Transfer.triggered.connect(self.switch_to_matrix_coef_conversion) #切换至矩阵运算
         self.actionCircuit_Parameters_to_matrices.triggered.connect(self.switch_to_circuit) #根据电路参数生成
         self.actionExit.triggered.connect(self.quit) #退出
         self.actionDevelop_team.triggered.connect(self.messageDialog)
+
+        '''
+        电路图
+        '''
+
+        pixmap1 = QPixmap("./1.png")  # 按指定路径找到图片
+        self.label_6.setPixmap(pixmap1)  # 在label上显示图片, 默认为1
+        self.comboBox_3.currentIndexChanged.connect(self.input_and_image_change) #更改电路图
+        self.lineEdit_6.setVisible(False)
+        self.lineEdit_7.setVisible(False)
+
+
+
+    def input_and_image_change(self):
+        pixmap1 = QPixmap("./1.png")  # 按指定路径找到图片
+        pixmap2 = QPixmap("./2.png")
+        pixmap3 = QPixmap("./3.png")
+        pixmap4 = QPixmap("./4.png")
+        pixmap5 = QPixmap("./5.png")
+        pixmap6 = QPixmap("./6.png")
+        if self.comboBox_3.currentIndex() == 0:
+            self.label_6.setPixmap(pixmap1)  # 在label上显示图片
+            self.lineEdit_6.setVisible(False)
+            self.lineEdit_7.setVisible(False)
+            self.label_12.setText("请输入参数: Z")
+        elif self.comboBox_3.currentIndex() == 1:
+            self.label_6.setPixmap(pixmap2)
+            self.lineEdit_6.setVisible(False)
+            self.lineEdit_7.setVisible(False)
+            self.label_12.setText("请输入参数: Y")
+        elif self.comboBox_3.currentIndex() == 2:
+            self.label_6.setPixmap(pixmap3)
+            self.lineEdit_6.setVisible(True)
+            self.lineEdit_7.setVisible(False)
+            self.label_12.setText("请依次输入参数:\nβ,l, 此处Z0=1")
+        elif self.comboBox_3.currentIndex() == 3:
+            self.label_6.setPixmap(pixmap4)
+            self.lineEdit_6.setVisible(False)
+            self.lineEdit_7.setVisible(False)
+            self.label_12.setText("请输入参数: N")
+        elif self.comboBox_3.currentIndex() == 4:
+            self.label_6.setPixmap(pixmap5)
+            self.lineEdit_6.setVisible(True)
+            self.lineEdit_7.setVisible(True)
+            self.label_12.setText("请依次输入参数:\nY1、Y2、Y3")
+        elif self.comboBox_3.currentIndex() == 5:
+            self.label_6.setPixmap(pixmap6)
+            self.lineEdit_6.setVisible(True)
+            self.lineEdit_7.setVisible(True)
+            self.label_12.setText("请依次输入参数:\nZ1、Z2、Z3")
 
     def switch_to_matrix_coef_conversion(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -251,11 +308,19 @@ class Ui_MainWindow(object):
         msg_box.setWindowIcon(QtGui.QIcon('logo.ico'))  # 加载图标
         msg_box.exec_()
 
-    def clickButton(self):
+    def print_matrix(self, matrix):
+        for i in matrix:
+            print(str(i)[1:-1])
+            self.textBrowser.append(str(i)[1:-1])
+            self.cursor = self.textBrowser.textCursor()
+            self.textBrowser.moveCursor(self.cursor.End)
+            QtWidgets.QApplication.processEvents() #光标换行跟随
+
+    def conversion_clickButton(self):
         if len(self.lineEdit.text())==0 or len(self.lineEdit_2.text())==0 or len(self.lineEdit_3.text())==0 or len(self.lineEdit_4.text())==0:
             self.textBrowser.setText("<font color='red'>" + "矩阵元素不能为空!")
             return
-        # ABCD -> ZYS
+
         e1 = float(self.lineEdit.text())
         e2 = float(self.lineEdit_2.text())
         e3 = float(self.lineEdit_3.text())
@@ -319,13 +384,17 @@ class Ui_MainWindow(object):
             self.textBrowser_2.append("[INFO] S->Y matrix generated!")
             matrix = algorithm.s_to_y(e1, e2, e3, e4)
 
-        for i in matrix:
-            print(str(i)[1:-1])
-            self.textBrowser.append(str(i)[1:-1])
-            self.cursor = self.textBrowser.textCursor()
-            self.textBrowser.moveCursor(self.cursor.End)
-            QtWidgets.QApplication.processEvents()
+        self.print_matrix(matrix)
+
         return
+
+    def generate_clickButton(self):
+        if len(self.lineEdit_5.text())==0 or len(self.lineEdit_6.text())==0 or len(self.lineEdit_7.text())==0 :
+            self.textBrowser.setText("<font color='red'>" + "参数不能为空!")
+            return
+        if self.comboBox_3.currentIndex()==0:
+            Z = float(self.lineEdit_5.text())
+            a, b, c, d = algorithm.circuit_1_abcd(Z)
 
 
 

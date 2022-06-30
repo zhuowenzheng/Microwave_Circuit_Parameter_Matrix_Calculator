@@ -27,65 +27,11 @@
      <number>0</number>
     </property>
     <widget class="QWidget" name="page">
-     <widget class="QWidget" name="gridLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>241</width>
-        <height>191</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
      <widget class="QTextBrowser" name="textBrowser_3">
       <property name="geometry">
        <rect>
         <x>435</x>
-        <y>1</y>
+        <y>10</y>
         <width>171</width>
         <height>201</height>
        </rect>
@@ -141,6 +87,72 @@
         <y>22</y>
         <width>111</width>
         <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>271</width>
+        <height>191</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QComboBox" name="comboBox_3">
+         <item>
+          <property name="text">
+           <string>单一Z阻抗</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>单一Y导纳</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Z0=1, β</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>N:1变压器</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>三阻抗Z1,Z2,Z3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>三导纳Y1,Y2,Y3</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="circuittitle">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>54</width>
+        <height>12</height>
        </rect>
       </property>
       <property name="text">
