@@ -124,7 +124,7 @@ class Ui_MainWindow(object):
         self.textBrowser_2.setObjectName("textBrowser_2")
         self.verticalLayout.addWidget(self.textBrowser_2)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(20, 10, 54, 12))
+        self.label_5.setGeometry(QtCore.QRect(20, 10, 54, 16))
         self.label_5.setObjectName("label_5")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
